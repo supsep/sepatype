@@ -1,7 +1,11 @@
 package com.sepatype;
 
+/**
+ * POJO Class that contains digit and english word representation of user input.
+ */
 public class SepatypeValue {
     private final long longValue;
+
     private String wordValue;
 
     public SepatypeValue(long value) {

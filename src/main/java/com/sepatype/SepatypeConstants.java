@@ -12,6 +12,7 @@ public final class SepatypeConstants {
     protected static final String[] BELOW_HUNDRED = new String[] {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty",
             "Sixty", "Seventy", "Eighty", "Ninety"};
 
+    protected static final String AND = "And ";
     protected static final String NEGATIVE = "Negative ";
     protected static final String ZERO = "Zero";
     protected static final String HUNDRED = " Hundred ";

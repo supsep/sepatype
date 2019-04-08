@@ -1,5 +1,6 @@
 package com.sepatype;
 
+import static com.sepatype.SepatypeConstants.AND;
 import static com.sepatype.SepatypeConstants.BELOW_HUNDRED;
 import static com.sepatype.SepatypeConstants.BELOW_TEN;
 import static com.sepatype.SepatypeConstants.BELOW_TWENTY;
@@ -16,15 +17,20 @@ import static com.sepatype.SepatypeConstants.TRILLION;
 import static com.sepatype.SepatypeConstants.ZERO;
 
 /**
- *
+ * This service is responsible for various actions for Sepatype program.
  */
 public class SepatypeService {
 
     /**
+     * This method validates input from user based on the following criteria:
+     *  1) Input must not be empty
+     *  2) Input must be digits of base 10.
+     *  3) Input must be greater than Long.MIN_VALUE
+     *  4) Input must be less than Long.MAX_VALUE
      *
-     * @param input
-     * @return
-     * @throws SepatypeValidationException
+     * @param input String input by user.
+     * @return long value validated and converted from user input.
+     * @throws SepatypeValidationException when validation criteria is not met.
      */
     public long validateInput(String input) throws SepatypeValidationException {
         if (input == null || input.length() < 1) {
@@ -43,11 +49,11 @@ public class SepatypeService {
     }
 
     /**
-     *
-     * @param num
-     * @return
+     * This method converts a long value into a English word representation of the long value.
+     * @param num Long value to be converted.
+     * @return English word representation of the long value
      */
-    public String numberToWords(long num) {
+    public String longToWords(long num) {
         boolean negative = false;
         if (num == 0L) {
             return ZERO;
@@ -60,6 +66,11 @@ public class SepatypeService {
         return negative ? NEGATIVE + result : result;
     }
 
+    /**
+     * Recursive solution to convert a long value into a english word representation of the value.
+     * @param num Long value to be converted.
+     * @return
+     */
     private String findString(long num) {
         String result;
         if (num < 10L) {
@@ -72,7 +83,7 @@ public class SepatypeService {
             result = BELOW_HUNDRED[(int) (num/10L)] + " " + findString(num % 10L);
         }
         else if (num < 1000L) {
-            result = findString(num/100L) + HUNDRED +  findString(num % 100L);
+            result = findString(num / 100L) + HUNDRED + findString(num % 100L);
         }
         else if (num < 1000000L) {
             result = findString(num/1000L) + THOUSAND + findString(num % 1000L);
