@@ -17,7 +17,7 @@ public class SepatypeServiceImplTest {
   public void testHandleInput() throws SepatypeValidationException {
     SepatypeValue result = service.handleInput("13123123123");
     Assert.assertEquals(13123123123L, result.getLongValue());
-    Assert.assertEquals("Thirteen Billion One Hundred Twenty Three Million One Hundred Twenty Three Thousand One Hundred Twenty Three", result.getWordValue());
+    Assert.assertEquals("Thirteen billion one hundred twenty three million one hundred twenty three thousand one hundred and twenty three", result.getWordValue());
 
     result = service.handleInput("0");
     Assert.assertEquals(0L, result.getLongValue());
@@ -25,11 +25,11 @@ public class SepatypeServiceImplTest {
 
     result = service.handleInput(String.valueOf(Long.MAX_VALUE));
     Assert.assertEquals(Long.MAX_VALUE, result.getLongValue());
-    Assert.assertEquals("Nine Quintillion Two Hundred Twenty Three Quadrillion Three Hundred Seventy Two Trillion Thirty Six Billion Eight Hundred Fifty Four Million Seven Hundred Seventy Five Thousand Eight Hundred Seven", result.getWordValue());
+    Assert.assertEquals("Nine quintillion two hundred twenty three quadrillion three hundred seventy two trillion thirty six billion eight hundred fifty four million seven hundred seventy five thousand eight hundred and seven", result.getWordValue());
 
     result = service.handleInput(String.valueOf(Long.MIN_VALUE));
     Assert.assertEquals(Long.MIN_VALUE, result.getLongValue());
-    Assert.assertEquals("Negative Nine Quintillion Two Hundred Twenty Three Quadrillion Three Hundred Seventy Two Trillion Thirty Six Billion Eight Hundred Fifty Four Million Seven Hundred Seventy Five Thousand Eight Hundred Seven", result.getWordValue());
+    Assert.assertEquals("Negative nine quintillion two hundred twenty three quadrillion three hundred seventy two trillion thirty six billion eight hundred fifty four million seven hundred seventy five thousand eight hundred and seven", result.getWordValue());
   }
 
   @Test

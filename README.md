@@ -7,7 +7,8 @@ This program takes numbers from stdin and prints the english word representation
 
 ### Prerequisites
 
-N/A
+* Java 8
+* Internet connection accessible to Jcenter
 
 ### Running
 
@@ -26,11 +27,10 @@ The word value for : 123123123123123 is: One Hundred Twenty Three Trillion One H
 
 ## Input criteria
 
- - Digits only
- - No non-numeric characters
+ - No non-numeric characters other than comma: "," and negative sign: "-"
  - No whitespace
- - Value >= -9223372036854775808
- - Value <= 9223372036854775807
+ - input >= -9223372036854775808
+ - input <= 9223372036854775807
 
 ## Running the tests
 
@@ -52,7 +52,8 @@ To run the unit tests:
 
 ## TODO
 * Implement lookup for repeat values
-
+* Component tests
+* Refactor unit tests to export test values into resources
 
 ## License
 

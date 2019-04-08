@@ -1,107 +1,111 @@
 package com.sepatype.util;
 
-import static java.util.Map.entry;
-
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class LongToWordUtilTest {
-  private static final Map<Long, String> validMap = Map.ofEntries(
-      entry(Long.MIN_VALUE, "Negative Nine Quintillion Two Hundred Twenty Three Quadrillion Three Hundred Seventy Two Trillion Thirty Six Billion Eight Hundred Fifty Four Million Seven Hundred Seventy Five Thousand Eight Hundred Seven"),
-      entry(-2935174315119L, "Negative Two Trillion Nine Hundred Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(-935174315119L,  "Negative Nine Hundred Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(-35174315119L,   "Negative Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(-15174315119L,   "Negative Fifteen Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(-1174315119L,    "Negative One Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(-1174315110L,    "Negative One Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Ten"),
-      entry(-999999999L,     "Negative Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"),
-      entry(-999999000L,     "Negative Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine Thousand"),
-      entry(-999000999L,     "Negative Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine"),
-      entry(-999000000L,     "Negative Nine Hundred Ninety Nine Million"),
-      entry(-606606606L,     "Negative Six Hundred Six Million Six Hundred Six Thousand Six Hundred Six"),
-      entry(-500500500L,     "Negative Five Hundred Million Five Hundred Thousand Five Hundred"),
-      entry(-100100100L,     "Negative One Hundred Million One Hundred Thousand One Hundred"),
-      entry(-5000000L,       "Negative Five Million"),
-      entry(-4000000L,       "Negative Four Million"),
-      entry(-2000000L,       "Negative Two Million"),
-      entry(-1000000L,       "Negative One Million"),
-      entry(-999999L,        "Negative Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"),
-      entry(-999000L,        "Negative Nine Hundred Ninety Nine Thousand"),
-      entry(-21000L,         "Negative Twenty One Thousand"),
-      entry(-11000L,         "Negative Eleven Thousand"),
-      entry(-5000L,          "Negative Five Thousand"),
-      entry(-4000L,          "Negative Four Thousand"),
-      entry(-2000L,          "Negative Two Thousand"),
-      entry(-1000L,          "Negative One Thousand"),
-      entry(-999L,           "Negative Nine Hundred Ninety Nine"),
-      entry(-990L,           "Negative Nine Hundred Ninety"),
-      entry(-919L,           "Negative Nine Hundred Nineteen"),
-      entry(-909L,           "Negative Nine Hundred Nine"),
-      entry(-900L,           "Negative Nine Hundred"),
-      entry(-121L,           "Negative One Hundred Twenty One"),
-      entry(-120L,           "Negative One Hundred Twenty"),
-      entry(-111L,           "Negative One Hundred Eleven"),
-      entry(-101L,           "Negative One Hundred One"),
-      entry(-100L,           "Negative One Hundred"),
-      entry(-99L,            "Negative Ninety Nine"),
-      entry(-90L,            "Negative Ninety"),
-      entry(-80L,            "Negative Eighty"),
-      entry(-21L,            "Negative Twenty One"),
-      entry(-20L,            "Negative Twenty"),
-      entry(-19L,            "Negative Nineteen"),
-      entry(-11L,            "Negative Eleven"),
-      entry(-10L,            "Negative Ten"),
-      entry(-9L,             "Negative Nine"),
-      entry(-1L,             "Negative One"),
-      entry(0L,             "Zero"),
-      entry(1L,             "One"),
-      entry(9L,             "Nine"),
-      entry(10L,            "Ten"),
-      entry(11L,            "Eleven"),
-      entry(19L,            "Nineteen"),
-      entry(20L,            "Twenty"),
-      entry(21L,            "Twenty One"),
-      entry(80L,            "Eighty"),
-      entry(90L,            "Ninety"),
-      entry(99L,            "Ninety Nine"),
-      entry(100L,           "One Hundred"),
-      entry(101L,           "One Hundred One"),
-      entry(111L,           "One Hundred Eleven"),
-      entry(120L,           "One Hundred Twenty"),
-      entry(121L,           "One Hundred Twenty One"),
-      entry(900L,           "Nine Hundred"),
-      entry(909L,           "Nine Hundred Nine"),
-      entry(919L,           "Nine Hundred Nineteen"),
-      entry(990L,           "Nine Hundred Ninety"),
-      entry(999L,           "Nine Hundred Ninety Nine"),
-      entry(1000L,          "One Thousand"),
-      entry(2000L,          "Two Thousand"),
-      entry(4000L,          "Four Thousand"),
-      entry(5000L,          "Five Thousand"),
-      entry(11000L,         "Eleven Thousand"),
-      entry(21000L,         "Twenty One Thousand"),
-      entry(999000L,        "Nine Hundred Ninety Nine Thousand"),
-      entry(999999L,        "Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"),
-      entry(1000000L,       "One Million"),
-      entry(2000000L,       "Two Million"),
-      entry(4000000L,       "Four Million"),
-      entry(5000000L,       "Five Million"),
-      entry(100100100L,     "One Hundred Million One Hundred Thousand One Hundred"),
-      entry(500500500L,     "Five Hundred Million Five Hundred Thousand Five Hundred"),
-      entry(606606606L,     "Six Hundred Six Million Six Hundred Six Thousand Six Hundred Six"),
-      entry(999000000L,     "Nine Hundred Ninety Nine Million"),
-      entry(999000999L,     "Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine"),
-      entry(999999000L,     "Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine Thousand"),
-      entry(999999999L,     "Nine Hundred Ninety Nine Million Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"),
-      entry(1174315110L,    "One Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Ten"),
-      entry(1174315119L,    "One Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(15174315119L,   "Fifteen Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(35174315119L,   "Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(935174315119L,  "Nine Hundred Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(2935174315119L, "Two Trillion Nine Hundred Thirty Five Billion One Hundred Seventy Four Million Three Hundred Fifteen Thousand One Hundred Nineteen"),
-      entry(Long.MAX_VALUE, "Nine Quintillion Two Hundred Twenty Three Quadrillion Three Hundred Seventy Two Trillion Thirty Six Billion Eight Hundred Fifty Four Million Seven Hundred Seventy Five Thousand Eight Hundred Seven")
-  );
+  private static final Map<Long, String> validMap = new HashMap<>();
+
+  @BeforeClass
+  public static void setUpClass() {
+    validMap.put(Long.MIN_VALUE, "Negative nine quintillion two hundred twenty three quadrillion three hundred seventy two trillion thirty six billion eight hundred fifty four million seven hundred seventy five thousand eight hundred and seven");
+    validMap.put(-2935174315119L, "Negative two trillion nine hundred thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(-935174315119L,  "Negative nine hundred thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(-35174315119L,   "Negative thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(-15174315119L,   "Negative fifteen billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(-1174315119L,    "Negative one billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(-1174315110L,    "Negative one billion one hundred seventy four million three hundred fifteen thousand one hundred and ten");
+    validMap.put(-999999999L,     "Negative nine hundred ninety nine million nine hundred ninety nine thousand nine hundred and ninety nine");
+    validMap.put(-999999000L,     "Negative nine hundred ninety nine million nine hundred ninety nine thousand");
+    validMap.put(-999000999L,     "Negative nine hundred ninety nine million nine hundred and ninety nine");
+    validMap.put(-999000000L,     "Negative nine hundred ninety nine million");
+    validMap.put(-606606606L,     "Negative six hundred six million six hundred six thousand six hundred and six");
+    validMap.put(-500500500L,     "Negative five hundred million five hundred thousand five hundred");
+    validMap.put(-100100100L,     "Negative one hundred million one hundred thousand one hundred");
+    validMap.put(-5000000L,       "Negative five million");
+    validMap.put(-4000000L,       "Negative four million");
+    validMap.put(-2000000L,       "Negative two million");
+    validMap.put(-1000000L,       "Negative one million");
+    validMap.put(-999999L,        "Negative nine hundred ninety nine thousand nine hundred and ninety nine");
+    validMap.put(-999000L,        "Negative nine hundred ninety nine thousand");
+    validMap.put(-21000L,         "Negative twenty one thousand");
+    validMap.put(-11000L,         "Negative eleven thousand");
+    validMap.put(-5000L,          "Negative five thousand");
+    validMap.put(-4000L,          "Negative four thousand");
+    validMap.put(-2000L,          "Negative two thousand");
+    validMap.put(-1000L,          "Negative one thousand");
+    validMap.put(-999L,           "Negative nine hundred and ninety nine");
+    validMap.put(-990L,           "Negative nine hundred and ninety");
+    validMap.put(-919L,           "Negative nine hundred and nineteen");
+    validMap.put(-909L,           "Negative nine hundred and nine");
+    validMap.put(-900L,           "Negative nine hundred");
+    validMap.put(-121L,           "Negative one hundred and twenty one");
+    validMap.put(-120L,           "Negative one hundred and twenty");
+    validMap.put(-111L,           "Negative one hundred and eleven");
+    validMap.put(-101L,           "Negative one hundred and one");
+    validMap.put(-100L,           "Negative one hundred");
+    validMap.put(-99L,            "Negative ninety nine");
+    validMap.put(-90L,            "Negative ninety");
+    validMap.put(-80L,            "Negative eighty");
+    validMap.put(-21L,            "Negative twenty one");
+    validMap.put(-20L,            "Negative twenty");
+    validMap.put(-19L,            "Negative nineteen");
+    validMap.put(-11L,            "Negative eleven");
+    validMap.put(-10L,            "Negative ten");
+    validMap.put(-9L,             "Negative nine");
+    validMap.put(-1L,             "Negative one");
+    validMap.put(0L,             "Zero");
+    validMap.put(1L,             "One");
+    validMap.put(9L,             "Nine");
+    validMap.put(10L,            "Ten");
+    validMap.put(11L,            "Eleven");
+    validMap.put(19L,            "Nineteen");
+    validMap.put(20L,            "Twenty");
+    validMap.put(21L,            "Twenty one");
+    validMap.put(80L,            "Eighty");
+    validMap.put(90L,            "Ninety");
+    validMap.put(99L,            "Ninety nine");
+    validMap.put(100L,           "One hundred");
+    validMap.put(101L,           "One hundred and one");
+    validMap.put(111L,           "One hundred and eleven");
+    validMap.put(120L,           "One hundred and twenty");
+    validMap.put(121L,           "One hundred and twenty one");
+    validMap.put(900L,           "Nine hundred");
+    validMap.put(909L,           "Nine hundred and nine");
+    validMap.put(919L,           "Nine hundred and nineteen");
+    validMap.put(990L,           "Nine hundred and ninety");
+    validMap.put(999L,           "Nine hundred and ninety nine");
+    validMap.put(1000L,          "One thousand");
+    validMap.put(2000L,          "Two thousand");
+    validMap.put(4000L,          "Four thousand");
+    validMap.put(5000L,          "Five thousand");
+    validMap.put(11000L,         "Eleven thousand");
+    validMap.put(21000L,         "Twenty one thousand");
+    validMap.put(999000L,        "Nine hundred ninety nine thousand");
+    validMap.put(999999L,        "Nine hundred ninety nine thousand nine hundred and ninety nine");
+    validMap.put(1000000L,       "One million");
+    validMap.put(2000000L,       "Two million");
+    validMap.put(4000000L,       "Four million");
+    validMap.put(5000000L,       "Five million");
+    validMap.put(100100100L,     "One hundred million one hundred thousand one hundred");
+    validMap.put(500500500L,     "Five hundred million five hundred thousand five hundred");
+    validMap.put(606606606L,     "Six hundred six million six hundred six thousand six hundred and six");
+    validMap.put(999000000L,     "Nine hundred ninety nine million");
+    validMap.put(999000999L,     "Nine hundred ninety nine million nine hundred and ninety nine");
+    validMap.put(999999000L,     "Nine hundred ninety nine million nine hundred ninety nine thousand");
+    validMap.put(999999999L,     "Nine hundred ninety nine million nine hundred ninety nine thousand nine hundred and ninety nine");
+    validMap.put(1174315110L,    "One billion one hundred seventy four million three hundred fifteen thousand one hundred and ten");
+    validMap.put(1174315119L,    "One billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(15174315119L,   "Fifteen billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(35174315119L,   "Thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(935174315119L,  "Nine hundred thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(2935174315119L, "Two trillion nine hundred thirty five billion one hundred seventy four million three hundred fifteen thousand one hundred and nineteen");
+    validMap.put(Long.MAX_VALUE, "Nine quintillion two hundred twenty three quadrillion three hundred seventy two trillion thirty six billion eight hundred fifty four million seven hundred seventy five thousand eight hundred and seven");
+
+  }
 
 
   @Test
