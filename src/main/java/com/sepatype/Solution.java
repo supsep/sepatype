@@ -14,8 +14,8 @@ import java.io.InputStreamReader;
  *        3) Input must be greater than Long.MIN_VALUE
  *        4) Input must be less than Long.MAX_VALUE
  */
-public class SepatypeSolution {
-    private static final SepatypeService service = new SepatypeService();
+public class Solution {
+    private static final SepatypeServiceImpl service = new SepatypeServiceImpl();
 
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -24,24 +24,13 @@ public class SepatypeSolution {
         while (true) {
             try {
                 String input = br.readLine();
-                final long inputLong = service.validateInput(input);
-                final SepatypeValue sepatypeValue = new SepatypeValue(inputLong);
-                final String wordValue = service.longToWords(sepatypeValue.getLongValue());
-                sepatypeValue.setWordValue(wordValue);
-                printResult(sepatypeValue);
+                final SepatypeValue result = service.handleInput(input);
+                System.out.println(result);
             } catch (SepatypeValidationException sve) {
                 System.err.println(sve.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private static void printResult(SepatypeValue sepatypeValue) {
-        System.out.println(new StringBuilder("The word value for : ")
-        .append(sepatypeValue.getLongValue())
-        .append( " is: ")
-        .append(sepatypeValue.getWordValue())
-        .toString());
     }
 }

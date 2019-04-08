@@ -23,4 +23,14 @@ public class SepatypeValue {
     public long getLongValue() {
         return longValue;
     }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("The word value for : ")
+            .append(this.getLongValue())
+            .append( " is: ")
+            .append(this.getWordValue())
+            .toString();
+    }
 }
+
